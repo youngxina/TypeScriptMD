@@ -104,7 +104,79 @@
   > 
   > ```
   >
-  > 
-
+  
 * `as`语法
+
+### 接口
+
+#### 接口的基础用法
+
+```  {typescript
+interface IPerson {
+    name: string;
+    age: number;
+    gender: '男' | '女';
+    hobby?: string;// 可选属性
+   	readonly size: 18; // 只读属性
+    [propName: string]: any; // 索引签名
+    
+}
+let man: IPerson = {
+    name: 'youngxin',
+    age: 18,
+    gender: '男'
+}
+```
+
+#### 继承接口
+
+接口是可以继承的，与ES6中类的继承类似，方便我们更加灵活地将接口分割到可重用的模块里。
+
+``` typescript
+interface IYoungxin extends IPerson {
+   weight: number
+}
+```
+
+一个接口可以继承多个接口，创建出一个多个接口的合成接口。
+
+#### 混合类型
+
+在JavaScript中有着丰富的类型。有时候你希望一个对象可以具备上面提到的多种类型
+
+``` typescript
+interface Counter {
+    (start: number): string;
+    interval: number;
+    reset(): void;
+}
+
+function getCounter(): Counter {
+    let counter = <Counter>function (start: number) { };
+    counter.interval = 123;
+    counter.reset = function () { };
+    return counter;
+}
+
+let c = getCounter();
+c(10);
+c.reset();
+c.interval = 5.0;
+```
+
+
+
+### 函数
+
+常见的函数声明
+
+``` typescript
+function buildName(firstName: string, lastName: string = 'xin', ...restOfName: string[]): string {
+    return firstName+ "" + lastName + "" + restOfName.join('');
+}
+```
+
+这个声明中包含了`参数声明`，`参数默认值`，`剩余参数`，`函数返回` 的类型声明
+
+### 泛型
 
