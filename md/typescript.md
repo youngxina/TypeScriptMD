@@ -180,3 +180,96 @@ function buildName(firstName: string, lastName: string = 'xin', ...restOfName: s
 
 ### 泛型
 
+泛型相当于一个类型变量，在定义时，无法预先知道具体的类型，可以用该变量来代替，只有到调用时，才能确定它的类型。来获取更加一致的类型推断。
+
+#### 如何在类型别名、接口、类中使用泛型
+
+``` typescript
+// 类型别名
+type TCallback<T> = (n: T, i:number) => boolean;
+// 接口
+interface ICallback<T> {
+    (n:T, i: number): boolean;
+}
+// 我们希望函数中多个位置的类型保持一致或有关联的信息
+function filter<T> (arr: T[], callback: TCallback<T>): T[] {
+    const newArr:T[] = [];
+    arr.forEach((n, i) => {
+        if(callback(n, i)) {
+            newArr.push(n);
+        }
+    })
+    return newArr;
+}
+```
+
+#### 泛型约束
+
+用于限制泛型的取值。
+
+``` typescript
+interface IHasNamePoperty {
+    name: string;
+}
+
+function nameToUpperCase<T extends IHasNamePoperty>(obj: T): T {
+    obj.name = obj.name.split(' ').map(s=>s[0].toUpperCase() + s.substr(1)).join(' ');
+    return obj
+}
+```
+
+
+
+#### 多泛型
+
+将两个相同长度的数组进行混合
+
+``` typescript
+// [1,2,3] + ['a','b','c'] => [1,'a',2,'b',3,'c']
+function mixinArray<T, Kz> (arr1: T[], arr2: K[]): (T | K)[] {
+    if(arr1.length !== arr2.length) {
+        throw new Error('两个数组长度不一致')
+    }
+    let result:(T | K)[] = [];
+    for(let i = 0; i < arr1.length, i++){
+        result.push(arr1[i]);
+        result.push(arr2[i])
+    }
+    return result;
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
